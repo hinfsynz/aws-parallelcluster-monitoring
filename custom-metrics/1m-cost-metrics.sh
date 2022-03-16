@@ -13,7 +13,7 @@ export AWS_DEFAULT_REGION=$cfn_region
 aws_region_long_name=$(python /usr/local/bin/aws-region.py $cfn_region)
 aws_region_long_name=${aws_region_long_name/Europe/EU}
 
-monitoring_dir_name=$(echo ${cfn_postinstall_args}| cut -d ',' -f 2 )
+monitoring_dir_name=${cfn_postinstall_args[1]}
 monitoring_home="/home/${cfn_cluster_user}/${monitoring_dir_name}"
 
 queues=$(/opt/slurm/bin/sinfo --noheader -O partition  | sed 's/\*//g')
