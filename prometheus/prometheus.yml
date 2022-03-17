@@ -58,6 +58,11 @@ scrape_configs:
               - g4dn.16xlarge
               - g4dn.12xlarge
               - g4dn.metal
+              - t3.medium
+              - t3.micro
+              - t2.micro
+              - t2.large
+              - c5.large
     relabel_configs:
       - source_labels: [__meta_ec2_tag_Name]
         target_label: instance_name
