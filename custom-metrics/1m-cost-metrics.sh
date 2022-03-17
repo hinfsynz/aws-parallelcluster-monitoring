@@ -17,13 +17,14 @@ monitoring_dir_name=${cfn_postinstall_args[1]}
 monitoring_home="/home/${cfn_cluster_user}/${monitoring_dir_name}"
 
 queues=$(/opt/slurm/bin/sinfo --noheader -O partition  | sed 's/\*//g')
-cluster_config_file="${monitoring_home}/parallelcluster-setup/cluster-config.json"
+cluster_config_file="${monitoring_home}/parallelcluster-setup/cluster-config.yaml"
 
 compute_nodes_total_cost=0
 
 for queue in $queues; do 
 
-  instance_type=$(cat "${cluster_config_file}" | jq -r --arg queue $queue '.cluster.queue_settings | to_entries[] | select(.key==$queue).value.compute_resource_settings | to_entries[]| .value.instance_type')
+  #instance_type=$(cat "${cluster_config_file}" | jq -r --arg queue $queue '.cluster.queue_settings | to_entries[] | select(.key==$queue).value.compute_resource_settings | to_entries[]| .value.instance_type')
+  instance_type=$(python /usr/local/bin/get-compute-instance-type.py $cluster_config_file)
 
   compute_node_h_price=$(aws pricing get-products \
     --region us-east-1 \
