@@ -26,17 +26,12 @@ scrape_configs:
   - job_name: 'ec2_instances'
     scrape_interval: 5s
     ec2_sd_configs:
-      - port: 9100
-        refresh_interval: 10s
-      - port: 9400
+      - region: us-east-1
+        access_key: 'insert your access key ID here'
+        secret_key: 'inser your secret key here'
+        port: 9100
         refresh_interval: 10s
         filters:
-          - name: instance-state-name
-            values:
-              - running
-          - name: tag:Name
-            values:
-              - Compute
           - name: instance-type
             values:
               - p2.xlarge
@@ -60,6 +55,7 @@ scrape_configs:
               - g4dn.metal
               - t3.medium
               - t3.micro
+              - t2.medium
               - t2.micro
               - t2.large
               - c5.large
@@ -68,6 +64,8 @@ scrape_configs:
         target_label: instance_name
       - source_labels: [__meta_ec2_tag_Application]
         target_label: instance_grafana
+        regex: Grafana
+        action: keep
       - source_labels: [__meta_ec2_instance_id]
         target_label: instance_id
       - source_labels: [__meta_ec2_availability_zone]
