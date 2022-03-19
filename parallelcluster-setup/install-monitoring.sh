@@ -45,6 +45,7 @@ case "${cfn_node_type}" in
 
 		chown $cfn_cluster_user:$cfn_cluster_user -R /home/$cfn_cluster_user
 		chmod +x ${monitoring_home}/custom-metrics/*
+		chmod +x ${monitoring_home}/housekeeping-scripts/*
 
 		cp -rp ${monitoring_home}/custom-metrics/* /usr/local/bin/
 		cp -rp ${monitoring_home}/housekeeping-scripts/* /home/${cfn_cluster_user}
