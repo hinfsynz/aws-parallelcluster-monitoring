@@ -47,10 +47,13 @@ case "${cfn_node_type}" in
 		chmod +x ${monitoring_home}/custom-metrics/*
 
 		cp -rp ${monitoring_home}/custom-metrics/* /usr/local/bin/
+		cp -rp ${monitoring_home}/housekeeping-scripts/* /home/${cfn_cluster_user}
 		mv ${monitoring_home}/prometheus-slurm-exporter/slurm_exporter.service /etc/systemd/system/
 
 	 	(crontab -l -u $cfn_cluster_user; echo "*/1 * * * * /usr/local/bin/1m-cost-metrics.sh") | crontab -u $cfn_cluster_user -
 		(crontab -l -u $cfn_cluster_user; echo "*/60 * * * * /usr/local/bin/1h-cost-metrics.sh") | crontab -u $cfn_cluster_user -
+		(crontab -l -u $cfn_cluster_user; echo "0 0 * * 0 /home/ec2-user/purge_log.sh > /tmp/purgelog.txt") | crontab -u $cfn_cluster_user -
+		(crontab -l -u $cfn_cluster_user; echo "0 0 * * 0 /home/ec2-user/clean_mailbox.sh > /tmp/mailcleanup.txt") | crontab -u $cfn_cluster_user -
 
 
 		# replace tokens
