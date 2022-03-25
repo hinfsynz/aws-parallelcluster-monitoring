@@ -27,8 +27,8 @@ scrape_configs:
     scrape_interval: 5s
     ec2_sd_configs:
       - region: us-east-1
-        access_key: 'insert your access key ID here'
-        secret_key: 'inser your secret key here'
+        access_key: <your AWS access key>
+        secret_key: <your AWS secret key>
         port: 9100
         refresh_interval: 10s
         filters:
