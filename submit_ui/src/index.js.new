@@ -1,0 +1,118 @@
+import React, { Component } from 'react';
+import { render } from 'react-dom';
+import AppBar from 'material-ui/AppBar';
+import DropDownMenu from 'material-ui/DropDownMenu';
+import MenuItem from 'material-ui/MenuItem';
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import Button from '@material-ui/core/Button';
+import Typography from '@material-ui/core/Typography';
+import Alert from '@material-ui/lab/Alert';
+import InputLabel from '@material-ui/core/InputLabel';
+import Container from '@material-ui/core/Container';
+
+class App extends Component {
+  constructor() {
+    super();
+
+    this.state = {
+      selection : 1
+    };
+    this.handleChange = this.handleChange.bind(this); 
+  }
+
+  handleChange(event, index, value) {
+    //set selection to the value selected
+    this.setState({ selection : value });
+
+  }
+
+  pageControl(){
+    if( this.state.selection == 1){
+      return (
+        <div><h3>Kundur</h3></div>
+      );
+    } else if( this.state.selection == 2) {
+      return (
+        <div><h3>IEEE14</h3></div>
+      );
+    } else if( this.state.selection == 3) {
+      return (
+        <div><h3>WECC</h3></div>
+      );
+    }
+  }
+
+  /*
+  Alerting() {
+    if (success === true) {
+      return <Alert severity="success">Run successfully submitted!</Alert>;
+    }
+    else if (success === false) {
+      return <Alert severity="error"> Oops. An error just occurred!</Alert>;
+    }
+    else {
+      return null;
+    }
+    console.log("Done");
+  }
+  */
+  handleSubmit(e) {
+    e.preventDefault();
+  }
+
+  render() {
+    return (
+      <div>
+	<Container>
+        <form onSubmit={this.handleSubmit}>
+        <MuiThemeProvider>
+        <AppBar
+            title="An Elastic HPC Cluster Demo &ndash; by IEEE PES Task Force 'Cloud4PowerGrid'"
+            style={
+              { 
+                background:"#ffb400" //hex color values (yellow)
+              }
+            }
+            titleStyle = {
+              {
+                color:"#FFFFF" //color of text (black)
+              }
+            }
+            showMenuIconButton={false}
+         />
+	 <br/><br/><br/>
+	 <Typography align="center">
+	 <h2> Study System </h2>
+	 <br/><br/>
+         <DropDownMenu sx={{m:5}} 
+          value={this.state.selection} 
+          onChange={this.handleChange}
+         >
+          <MenuItem value={1} primaryText="Kundur's System"  />
+          <MenuItem value={2} primaryText="IEEE14 Bus System" />
+          <MenuItem value={3} primaryText="WECC System" />
+
+        </DropDownMenu>
+	</Typography>
+        <br/><br/><br/>
+        <center>
+        {this.pageControl()}
+        </center>
+	<br/><br/><br/>
+	<Typography align="center">
+              <Button type="submit" color="primary" variant="contained">
+                Submit Run
+              </Button>
+              <div style={{ marginTop: 10 }}>
+              </div>
+        </Typography>
+        </MuiThemeProvider>
+      </form>
+      </Container>
+      </div>
+    );
+  }
+}
+
+render(<App />, document.getElementById('root'));
+

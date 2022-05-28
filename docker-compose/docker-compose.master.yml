@@ -18,7 +18,7 @@ services:
         pid: host
         restart: unless-stopped
         volumes:
-            - '/home/$cfn_cluster_user/__MONITORING_DIR__/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml'
+            - '/home/$cfn_cluster_user/aws-parallelcluster-monitoring/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml'
             - 'prometheus-data:/prometheus'
         image: prom/prometheus
         command:
@@ -37,7 +37,7 @@ services:
             - 'GF_SECURITY_ADMIN_PASSWORD=Grafana4PC!'
             - 'GF_SERVER_ROOT_URL=http://%(domain)s/grafana/'
         volumes:
-            - '/home/$cfn_cluster_user/__MONITORING_DIR__/grafana:/etc/grafana/provisioning'
+            - '/home/$cfn_cluster_user/aws-parallelcluster-monitoring/grafana:/etc/grafana/provisioning'
             - 'grafana-data:/var/lib/grafana'
         image: grafana/grafana
     prometheus-node-exporter:
@@ -54,12 +54,44 @@ services:
         container_name: nginx
         network_mode: host
         pid: host
+        #ports:
+        #    - 80:80
+        #    - 443:443
         restart: unless-stopped
+        depends_on:
+            submit_ui:
+                condition: service_started
         volumes:
-            - '/home/$cfn_cluster_user/__MONITORING_DIR__/nginx/conf.d:/etc/nginx/conf.d/'
-            - '/home/$cfn_cluster_user/__MONITORING_DIR__/nginx/ssl:/etc/ssl/'
-            - '/home/$cfn_cluster_user/__MONITORING_DIR__/www:/usr/share/nginx/html'
+            - '/home/$cfn_cluster_user/aws-parallelcluster-monitoring/nginx/conf.d:/etc/nginx/conf.d/'
+            - '/home/$cfn_cluster_user/aws-parallelcluster-monitoring/nginx/ssl:/etc/ssl/'
+            - '/home/$cfn_cluster_user/aws-parallelcluster-monitoring/www:/usr/share/nginx/html'
+            - 'nodejs-build:/usr/share/nginx/html/runsubmit'
         image: nginx
+    submit_ui:
+        container_name: submit_ui
+        build:
+            context: ../submit_ui
+            dockerfile: Dockerfile
+        volumes:
+            - 'nodejs-build:/usr/src/app/build'
+    submit_backend:
+        restart: always
+        container_name: submit_backend
+        network_mode: host
+        pid: host
+        build:
+            context: ../submit_backend
+            dockerfile: Dockerfile
+        expose:
+            - 5000
+        volumes:
+            - '../submit_backend:/usr/src/app'
+        environment:
+            - FLASK_ENV=development
+            - FLASK_APP=app.py
+            - FLASK_DEBUG=1
 volumes:
     prometheus-data:
     grafana-data:
+    nodejs-build:
+
