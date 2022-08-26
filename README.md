@@ -1,4 +1,18 @@
-# Grafana Dashboard for AWS ParallelCluster 
+# ParallelCluster for Power Grid Simulation
+
+## Cluster Main Page
+![Cluster main page](docs/ClusterMainPage.png?raw=true "ParallelCluster for power grid simulation")
+
+## Run Submission Page
+![Run submission page](docs/RunSubmitPage.png?raw=true "Select a study system to run")
+![Run submission succeed](docs/RunSubmitSucceed.png?raw=true "Run submitted")
+
+## Job Status Monitoring
+![Job pending](docs/JobPending.png?raw=true "Job pending after run submitted")
+![Job in progress](docs/JobInProgress.png?raw=true "Job under execution on running nodes")
+
+
+# Grafana Dashboard for AWS ParallelCluster (from aws-samples repo) 
 
 This is a sample solution based on Grafana for monitoring various component of an HPC cluster built with AWS ParallelCluster.
 There are 6 dashboards that can be used as they are or customized as you need.
