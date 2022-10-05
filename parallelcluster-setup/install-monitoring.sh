@@ -99,6 +99,8 @@ case "${cfn_node_type}" in
 		cd prometheus-slurm-exporter
 		# GOPATH=/root/go-modules-cache HOME=/root make
 		GOPATH=/root/go-modules-cache HOME=/root go mod download
+		git config --system http.sslVerify false
+		git config --system user.email "email@email.com"
 		git config --global --add safe.directory ${monitoring_home}/prometheus-slurm-exporter
 		GOPATH=/root/go-modules-cache HOME=/root go build -v
 		# GOPATH=/root/go-modules-cache HOME=/root go test -v
