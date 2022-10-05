@@ -12,4 +12,4 @@
 case_selection=$1
 fault_bus_number=$2
 fault_clearing_time=$3
-sudo python3 $HOME/run_tds.py $case_selection $fault_bus_number $fault_clearing_time
+sudo python3 $HOME/aws-parallelcluster-monitoring/run-simulation-scripts/run_tds.py $case_selection $fault_bus_number $fault_clearing_time
