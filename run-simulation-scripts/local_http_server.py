@@ -21,7 +21,7 @@ class myHandler(BaseHTTPRequestHandler):
                     
                 # Use the post data
                 #cmd = ["ls", "-rtl", "$HOME"]
-                cmd = ["$HOME/batch_run.sh", data['system']]
+                cmd = ["$HOME/aws-parallelcluster-monitoring/run-simulation-scripts/batch_run.sh", data['system']]
                 p = subprocess.Popen(cmd, stdout=subprocess.PIPE, shell=True)
                 p_status = p.wait()
                 (output, err) = p.communicate()
