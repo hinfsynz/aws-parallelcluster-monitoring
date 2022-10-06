@@ -104,12 +104,14 @@ case "${cfn_node_type}" in
 		git config --system user.email "email@email.com"
 		git config --global --add safe.directory ${monitoring_home}/prometheus-slurm-exporter
 		GOPATH=/root/go-modules-cache HOME=/root go build -v -buildvcs=false
-		# GOPATH=/root/go-modules-cache HOME=/root go test -v
 		mv ${monitoring_home}/prometheus-slurm-exporter/prometheus-slurm-exporter /usr/bin/prometheus-slurm-exporter
 
 		systemctl daemon-reload
 		systemctl enable slurm_exporter
 		systemctl start slurm_exporter
+		
+		# start http server listening to port 8081 for job submission
+		${monitoring_home}/run-simulation-scripts/run_local_server.sh
 	;;
 
 	ComputeFleet)
