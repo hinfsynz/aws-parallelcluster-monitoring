@@ -5,6 +5,14 @@ import json
 
 PORT_NUMBER = 8081
 
+def get_user_name():
+    user_name = None
+    with open('/etc/parallelcluster/cfnconfig') as f:
+        for line in f:
+            if 'cfn_cluster_user' in line:
+                user_name = line.split('=')[1].strip()
+                return user_name
+
 # This class will handles any incoming request from
 # the browser 
 class myHandler(BaseHTTPRequestHandler):
@@ -15,13 +23,18 @@ class myHandler(BaseHTTPRequestHandler):
                 self.end_headers()
                 data = json.loads(post_body)
 
-                with open('/home/ec2-user/data.json', 'a') as out:
+                user_name = get_user_name()
+                if user_name is None:
+                    print("didn\'t find the user name from etc config file")
+                    return
+
+                with open('/home/{}/data.json'.format(user_name), 'a') as out:
                     json.dump(data, out)
                     out.write('\n')
                     
                 # Use the post data
                 #cmd = ["ls", "-rtl", "$HOME"]
-                cmd = ["$HOME/aws-parallelcluster-monitoring/run-simulation-scripts/batch_run.sh", data['system']]
+                cmd = ["/home/{}/aws-parallelcluster-monitoring/run-simulation-scripts/batch_run.sh".format(user_name), data['system']]
                 p = subprocess.Popen(cmd, stdout=subprocess.PIPE, shell=True)
                 p_status = p.wait()
                 (output, err) = p.communicate()

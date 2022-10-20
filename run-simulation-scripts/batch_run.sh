@@ -2,8 +2,11 @@
 
 #for i in {1..10}
 #do
-#   sbatch $HOME/submit_job.sh wecc
+#   sbatch $USER_HOME/submit_job.sh wecc
 #done
+
+. /etc/parallelcluster/cfnconfig
+USER_HOME="/home/${cfn_cluster_user}"
 
 for bus in {1..2}
 do
@@ -11,10 +14,10 @@ do
     do
         if [ "$#" -lt 1 ]
         then
-    	    sbatch -D $HOME/slurm_workdir/ $HOME/aws-parallelcluster-monitoring/run-simulation-scripts/submit_job.sh 2 $bus $tc
+    	    /opt/slurm/bin/sbatch -D $USER_HOME/slurm_workdir/ $USER_HOME/aws-parallelcluster-monitoring/run-simulation-scripts/submit_job.sh 2 $bus $tc
         elif [ "$#" -eq 1 ]
 	then
-	    sbatch -D $HOME/slurm_workdir/ $HOME/aws-parallelcluster-monitoring/run-simulation-scripts/submit_job.sh $1 $bus $tc
+	    /opt/slurm/bin/sbatch -D $USER_HOME/slurm_workdir/ $USER_HOME/aws-parallelcluster-monitoring/run-simulation-scripts/submit_job.sh $1 $bus $tc
 	fi
     done
 done
