@@ -90,6 +90,9 @@ case "${cfn_node_type}" in
 
 		#create the slurm work directory
 		mkdir -p "/home/$cfn_cluster_user/slurm_workdir"
+		#change the folder owner
+		chown $cfn_cluster_user:$cfn_cluster_user -R /home/$cfn_cluster_user/slurm_workdir
+
 		/usr/local/bin/docker-compose --env-file /etc/parallelcluster/cfnconfig -f ${monitoring_home}/docker-compose/docker-compose.master.yml -p monitoring-master up -d
 
 		# Download and build prometheus-slurm-exporter
