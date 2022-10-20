@@ -5,8 +5,6 @@
 #   sbatch $HOME/submit_job.sh wecc
 #done
 
-mkdir $HOME/slurm_workdir
-
 for bus in {1..2}
 do
     for tc in $(seq 1.1 .01667 1.2)

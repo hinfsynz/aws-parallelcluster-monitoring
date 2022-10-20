@@ -52,6 +52,9 @@ services:
             - '--path.rootfs=/host'
     nginx:
         container_name: nginx
+        build:
+            context: ../nginx
+            dockerfile: Dockerfile
         network_mode: host
         pid: host
         #ports:
@@ -62,11 +65,13 @@ services:
             submit_ui:
                 condition: service_started
         volumes:
+            - '/home/$cfn_cluster_user/aws-parallelcluster-monitoring/nginx/nginx.conf:/etc/nginx/nginx.conf'
             - '/home/$cfn_cluster_user/aws-parallelcluster-monitoring/nginx/conf.d:/etc/nginx/conf.d/'
             - '/home/$cfn_cluster_user/aws-parallelcluster-monitoring/nginx/ssl:/etc/ssl/'
             - '/home/$cfn_cluster_user/aws-parallelcluster-monitoring/www:/usr/share/nginx/html'
             - 'nodejs-build:/usr/share/nginx/html/runsubmit'
-        image: nginx
+            - '/home/$cfn_cluster_user/slurm_workdir:/usr/share/nginx/html/rundata'
+        #image: nginx
     submit_ui:
         container_name: submit_ui
         build:
