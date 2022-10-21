@@ -122,6 +122,18 @@ export default function RunSubmitForm() {
               <Button type="submit" color="primary" variant="contained">
                 Submit Run
               </Button>
+              <div style={{ marginTop: 10 }}></div>
+              <Button href="../" color="primary" variant="outlined">
+                 Return Home
+              </Button>
+              &nbsp;&nbsp;&nbsp;
+              <Button href="../rundata" color="primary" variant="outlined">
+                 Check Results
+              </Button>
+              &nbsp;&nbsp;&nbsp;
+              <Button href="../grafana" color="primary" variant="outlined">
+                 Run Monitoring
+              </Button>
               <div style={{ marginTop: 10 }}>
                 <Alerting></Alerting>
               </div>
