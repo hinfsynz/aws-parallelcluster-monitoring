@@ -11,6 +11,9 @@
 ![Job pending](docs/JobPending.png?raw=true "Job pending after run submitted")
 ![Job in progress](docs/JobInProgress.png?raw=true "Job under execution on running nodes")
 
+## Run Results View/Download Page
+![Run results page](docs/RunResults.png?raw=true "View/download run results")
+
 
 # Grafana Dashboard for AWS ParallelCluster (from aws-samples repo) 
 
