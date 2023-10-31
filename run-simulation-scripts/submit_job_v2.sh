@@ -7,4 +7,4 @@
 case_selection=$1
 element_number=$2
 event_time=$3
-python3 ../run_tds_v2.py $case_selection $element_number $event_time
+python3.9 ../run_tds_v2.py $case_selection $element_number $event_time
